@@ -1,15 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-class Hello extends React.Component{
- render(){
- return(
- <div>Online is good.</div>
- )
- }
+class Hello extends React.Component {
+  render () {
+    return (
+      <div>Online... it' s good.</div>
+    );
+  }
 }
 
-function run() {
+function run () {
   ReactDOM.render(<Hello />, document.getElementById('root'));
 }
 
