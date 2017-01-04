@@ -2,9 +2,15 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 
 class Hello extends React.Component {
+
+  whatsGood () {
+    alert('Online');
+  }
+
   render () {
+    let davis = 'Please Tell Me.';
     return (
-      <div>Online... it' s good.</div>
+      <button onClick={this.whatsGood}>What's Good? {davis}</button>
     );
   }
 }
