@@ -1,22 +1,9 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-
-class Hello extends React.Component {
-
-  whatsGood () {
-    alert('Online');
-  }
-
-  render () {
-    let davis = 'Please Tell Me.';
-    return (
-      <button onClick={this.whatsGood}>What's Good? {davis}</button>
-    );
-  }
-}
+import WerewolfPizza from './components/WerewolfPizza.jsx';
 
 function run () {
-  ReactDOM.render(<Hello />, document.getElementById('root'));
+  ReactDOM.render(<WerewolfPizza />, document.getElementById('root'));
 }
 
 if (window.addEventListener) {
