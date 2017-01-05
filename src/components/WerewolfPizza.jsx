@@ -1,6 +1,7 @@
+import ActionButton from './ActionButton.jsx';
+import constants from '../constants.json';
 import React from 'react';
 import StateLogger from './StateLogger.jsx';
-import constants from '../constants.json';
 
 export default class WerewolfPizza extends React.Component {
 
@@ -21,6 +22,10 @@ export default class WerewolfPizza extends React.Component {
       timer: constants.DEFAULT_ROUND_TICKS,
       visitor: null
     };
+  }
+
+  actionClicked (action) {
+    console.log(action);
   }
 
   getVisitor () {
@@ -74,12 +79,31 @@ export default class WerewolfPizza extends React.Component {
   }
 
   render () {
+
     return (
       <div>
         <StateLogger state={this.state} />
+
         <button disabled={this.state.status !== 'waiting'} onClick={this.roundStart.bind(this)}>Start</button>
-        <button disabled={this.state.status !== 'playing'} onClick={this.roundStop.bind(this)}>Stop</button>
+
+        <br /><br />
+
+        <ActionButton
+          callback={this.actionClicked.bind(this)}
+          item="Gun"
+          visible={this.state.status === 'playing'}
+        />
+
+        <ActionButton
+          callback={this.actionClicked.bind(this)}
+          item="Money"
+          visible={this.state.status === 'playing'}
+        />
+
+        <br /><br />
+
         <button disabled={this.state.status !== 'finishing'} onClick={this.roundReset.bind(this)}>Reset</button>
+
         <h1>{(this.state.timer * 0.01).toFixed(2)}</h1>
       </div>
     );
