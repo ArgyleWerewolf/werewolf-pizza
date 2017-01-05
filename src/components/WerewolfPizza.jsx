@@ -18,46 +18,68 @@ export default class WerewolfPizza extends React.Component {
       highScore: highScore,
       score: 0,
       status: 'waiting',
-      timer: constants.DEFAULT_ROUND_TICKS
+      timer: constants.DEFAULT_ROUND_TICKS,
+      visitor: null
     };
+  }
+
+  getVisitor () {
+    return Math.random() < 0.5 ? 'werewolf' : 'pizza';
+  }
+
+  roundReset () {
+    clearInterval(this.interval);
+    this.setState({
+      status: 'waiting',
+      timer: constants.DEFAULT_ROUND_TICKS,
+      visitor: null
+    });
+  }
+
+  roundStart () {
+    this.setState({
+      status: 'playing',
+      visitor: this.getVisitor()
+    });
+    this.timerStart();
+  }
+
+  roundStop () {
+    this.timerStop();
+    this.setState({
+      status: 'finishing'
+    });
+  }
+
+  roundTimeOut () {
+    this.roundStop();
+    this.setState({
+      score: this.state.score - 1
+    });
   }
 
   tick () {
     this.setState({ timer: this.state.timer - 1 });
     if (this.state.timer <= 0) {
-      this.timerStop();
+      this.roundTimeOut();
     }
   }
 
   timerStart () {
-    this.setState({
-      status: 'playing'
-    });
     this.interval = setInterval(this.tick.bind(this), 10);
   }
 
   timerStop () {
-    this.setState({
-      status: 'finishing'
-    });
     clearInterval(this.interval);
-  }
-
-  timerReset () {
-    this.timerStop();
-    this.setState({
-      status: 'waiting',
-      timer: constants.DEFAULT_ROUND_TICKS
-    });
   }
 
   render () {
     return (
       <div>
         <StateLogger state={this.state} />
-        <button disabled={this.state.status !== 'waiting'} onClick={this.timerStart.bind(this)}>Start</button>
-        <button disabled={this.state.status !== 'playing'} onClick={this.timerStop.bind(this)}>Stop</button>
-        <button disabled={this.state.status !== 'finishing'} onClick={this.timerReset.bind(this)}>Reset</button>
+        <button disabled={this.state.status !== 'waiting'} onClick={this.roundStart.bind(this)}>Start</button>
+        <button disabled={this.state.status !== 'playing'} onClick={this.roundStop.bind(this)}>Stop</button>
+        <button disabled={this.state.status !== 'finishing'} onClick={this.roundReset.bind(this)}>Reset</button>
         <h1>{(this.state.timer * 0.01).toFixed(2)}</h1>
       </div>
     );
