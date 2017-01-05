@@ -18,7 +18,7 @@ export default class WerewolfPizza extends React.Component {
       highScore: highScore,
       score: 0,
       status: 'waiting',
-      timer: constants.DEFAULT_ROUND_SECONDS
+      timer: constants.DEFAULT_ROUND_TICKS
     };
   }
 
@@ -33,7 +33,7 @@ export default class WerewolfPizza extends React.Component {
     this.setState({
       status: 'playing'
     });
-    this.interval = setInterval(this.tick.bind(this), 1000);
+    this.interval = setInterval(this.tick.bind(this), 10);
   }
 
   timerStop () {
@@ -47,7 +47,7 @@ export default class WerewolfPizza extends React.Component {
     this.timerStop();
     this.setState({
       status: 'waiting',
-      timer: constants.DEFAULT_ROUND_SECONDS
+      timer: constants.DEFAULT_ROUND_TICKS
     });
   }
 
@@ -58,6 +58,7 @@ export default class WerewolfPizza extends React.Component {
         <button disabled={this.state.status !== 'waiting'} onClick={this.timerStart.bind(this)}>Start</button>
         <button disabled={this.state.status !== 'playing'} onClick={this.timerStop.bind(this)}>Stop</button>
         <button disabled={this.state.status !== 'finishing'} onClick={this.timerReset.bind(this)}>Reset</button>
+        <h1>{(this.state.timer * 0.01).toFixed(2)}</h1>
       </div>
     );
   }
