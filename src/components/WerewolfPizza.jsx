@@ -1,5 +1,6 @@
+import { reverse } from 'lodash';
 import ActionButton from './ActionButton.jsx';
-import constants from '../constants.json';
+import { ACTIONS, ROUND_TICKS, STORAGE_KEY } from '../constants.json';
 import React from 'react';
 import StateLogger from './StateLogger.jsx';
 
@@ -8,29 +9,52 @@ export default class WerewolfPizza extends React.Component {
   constructor (props) {
     super(props);
 
-    let highScore = 0;
-    if (!localStorage['werewolfPizza']) {
-      highScore = localStorage['werewolfPizza'].highScore;
-    } else {
-      localStorage.setItem('werewolfPizza', JSON.stringify({ highScore: 0 }));
-    }
+    this.storageInitialize();
 
     this.state = {
       actions: null,
-      highScore: highScore,
+      highScore: this.storageRead('highScore'),
       score: 0,
       status: 'waiting',
-      timer: constants.DEFAULT_ROUND_TICKS,
+      timer: ROUND_TICKS,
       visitor: null
     };
   }
 
   actionClicked (action) {
-    console.log(action);
+    this.roundStop();
+    if (
+      (action === 'shoot' && this.state.visitor === 'werewolf') ||
+      (action === 'pay' && this.state.visitor === 'pizza')
+    ) {
+      this.handleWin();
+    } else {
+      this.handleLose();
+    }
+  }
+
+  getActions () {
+    return Math.random() < 0.5 ? ACTIONS : reverse(ACTIONS);
   }
 
   getVisitor () {
     return Math.random() < 0.5 ? 'werewolf' : 'pizza';
+  }
+
+  handleLose () {
+    this.setState({
+      score: 0
+    });
+  }
+
+  handleWin () {
+    const updatedScore = this.state.score + 1;
+    const updatedHighScore = (updatedScore > this.state.highScore) ? updatedScore : this.state.highScore;
+    this.setState({
+      highScore: updatedHighScore,
+      score: updatedScore
+    });
+    this.storageWrite('highScore', updatedHighScore);
   }
 
   roundReset () {
@@ -38,14 +62,14 @@ export default class WerewolfPizza extends React.Component {
     this.setState({
       actions: null,
       status: 'waiting',
-      timer: constants.DEFAULT_ROUND_TICKS,
+      timer: ROUND_TICKS,
       visitor: null
     });
   }
 
   roundStart () {
     this.setState({
-      actions: constants.ACTIONS,
+      actions: this.getActions(),
       status: 'playing',
       visitor: this.getVisitor()
     });
@@ -61,9 +85,23 @@ export default class WerewolfPizza extends React.Component {
 
   roundTimeOut () {
     this.roundStop();
-    this.setState({
-      score: this.state.score - 1
-    });
+    this.handleLose();
+  }
+
+  storageInitialize () {
+    if (!localStorage[STORAGE_KEY]) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify({ highScore: 0 }));
+    }
+  }
+
+  storageRead (key) {
+    return JSON.parse(localStorage[STORAGE_KEY])[key];
+  }
+
+  storageWrite (key, value) {
+    const storage = JSON.parse(localStorage[STORAGE_KEY]);
+    storage[key] = value;
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(storage));
   }
 
   tick () {
@@ -91,12 +129,12 @@ export default class WerewolfPizza extends React.Component {
         return (
           <ActionButton
             action={act}
-            callback={that.actionClicked}
+            callback={that.actionClicked.bind(that)}
+            gameStatus={that.state.status}
             key={act}
           />
         );
       });
-
     }
 
     return (
@@ -114,6 +152,7 @@ export default class WerewolfPizza extends React.Component {
         <button disabled={this.state.status !== 'finishing'} onClick={this.roundReset.bind(this)}>Reset</button>
 
         <h1>{(this.state.timer * 0.01).toFixed(2)}</h1>
+        <h1>{this.state.visitor}</h1>
       </div>
     );
   }

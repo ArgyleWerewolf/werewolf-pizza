@@ -9,6 +9,7 @@ export default class ActionButton extends React.Component {
   render () {
     return (
       <button
+        disabled={this.props.gameStatus === 'finishing'}
         onClick={this.onClick.bind(this)}
       >
         {this.props.action}
@@ -19,5 +20,6 @@ export default class ActionButton extends React.Component {
 
 ActionButton.propTypes = {
   action: React.PropTypes.string.isRequired,
-  callback: React.PropTypes.func.isRequired
+  callback: React.PropTypes.func.isRequired,
+  gameStatus: React.PropTypes.string.isRequired
 };

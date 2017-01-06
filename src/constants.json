@@ -1,4 +1,5 @@
 {
   "ACTIONS": ["shoot", "pay"],
-  "DEFAULT_ROUND_TICKS": 300
+  "ROUND_TICKS": 300,
+  "STORAGE_KEY": "werewolfPizza"
 }
