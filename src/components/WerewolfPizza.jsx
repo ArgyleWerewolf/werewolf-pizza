@@ -16,6 +16,7 @@ export default class WerewolfPizza extends React.Component {
     }
 
     this.state = {
+      actions: null,
       highScore: highScore,
       score: 0,
       status: 'waiting',
@@ -35,6 +36,7 @@ export default class WerewolfPizza extends React.Component {
   roundReset () {
     clearInterval(this.interval);
     this.setState({
+      actions: null,
       status: 'waiting',
       timer: constants.DEFAULT_ROUND_TICKS,
       visitor: null
@@ -43,6 +45,7 @@ export default class WerewolfPizza extends React.Component {
 
   roundStart () {
     this.setState({
+      actions: constants.ACTIONS,
       status: 'playing',
       visitor: this.getVisitor()
     });
@@ -80,6 +83,22 @@ export default class WerewolfPizza extends React.Component {
 
   render () {
 
+    let actions = null;
+
+    if (this.state.status !== 'waiting') {
+      const that = this;
+      actions = this.state.actions.map(function (act) {
+        return (
+          <ActionButton
+            action={act}
+            callback={that.actionClicked}
+            key={act}
+          />
+        );
+      });
+
+    }
+
     return (
       <div>
         <StateLogger state={this.state} />
@@ -88,17 +107,7 @@ export default class WerewolfPizza extends React.Component {
 
         <br /><br />
 
-        <ActionButton
-          callback={this.actionClicked.bind(this)}
-          item="Gun"
-          visible={this.state.status === 'playing'}
-        />
-
-        <ActionButton
-          callback={this.actionClicked.bind(this)}
-          item="Money"
-          visible={this.state.status === 'playing'}
-        />
+        {actions}
 
         <br /><br />
 

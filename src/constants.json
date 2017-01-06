@@ -1,3 +1,4 @@
 {
+  "ACTIONS": ["shoot", "pay"],
   "DEFAULT_ROUND_TICKS": 300
 }

@@ -3,27 +3,21 @@ import React from 'react';
 export default class ActionButton extends React.Component {
 
   onClick () {
-    this.props.callback(this.props.item);
+    this.props.callback(this.props.action);
   }
 
   render () {
-
-    if (!this.props.visible) {
-      return null;
-    }
-
     return (
       <button
         onClick={this.onClick.bind(this)}
       >
-        {this.props.item}
+        {this.props.action}
       </button>
     );
   }
 }
 
 ActionButton.propTypes = {
-  callback: React.PropTypes.func.isRequired,
-  item: React.PropTypes.string.isRequired,
-  visible: React.PropTypes.bool.isRequired
+  action: React.PropTypes.string.isRequired,
+  callback: React.PropTypes.func.isRequired
 };
