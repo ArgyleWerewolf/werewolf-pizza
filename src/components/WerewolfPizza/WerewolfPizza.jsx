@@ -1,8 +1,11 @@
 import { reverse } from 'lodash';
-import ActionButton from './ActionButton.jsx';
-import { ACTIONS, ROUND_TICKS, STORAGE_KEY } from '../constants.json';
+import Action from '../Action/Action.jsx';
+import { ACTIONS, ROUND_TICKS, STORAGE_KEY } from '../../constants.json';
 import React from 'react';
-import StateLogger from './StateLogger.jsx';
+import ScoreBoard from '../ScoreBoard/ScoreBoard.jsx';
+import StateLogger from '../StateLogger/StateLogger.jsx';
+
+require('./WerewolfPizza.scss');
 
 export default class WerewolfPizza extends React.Component {
 
@@ -12,12 +15,12 @@ export default class WerewolfPizza extends React.Component {
     this.storageInitialize();
 
     this.state = {
-      actions: null,
+      actions: this.getActions(),
       highScore: this.storageRead('highScore'),
       score: 0,
       status: 'waiting',
       timer: ROUND_TICKS,
-      visitor: null
+      visitor: this.getVisitor()
     };
   }
 
@@ -60,10 +63,10 @@ export default class WerewolfPizza extends React.Component {
   roundReset () {
     clearInterval(this.interval);
     this.setState({
-      actions: null,
+      actions: this.getActions(),
       status: 'waiting',
       timer: ROUND_TICKS,
-      visitor: null
+      visitor: this.getVisitor()
     });
   }
 
@@ -121,38 +124,43 @@ export default class WerewolfPizza extends React.Component {
 
   render () {
 
-    let actions = null;
-
-    if (this.state.status !== 'waiting') {
-      const that = this;
-      actions = this.state.actions.map(function (act) {
-        return (
-          <ActionButton
-            action={act}
-            callback={that.actionClicked.bind(that)}
-            gameStatus={that.state.status}
-            key={act}
-          />
-        );
-      });
-    }
-
     return (
       <div>
+
+        <ScoreBoard
+          highScore={this.state.highScore}
+          score={this.state.score}
+        />
+
+        <div className="row">
+          <div className="column column--third">
+            <Action
+              action={this.state.actions[0]}
+              callback={this.actionClicked.bind(this)}
+              gameStatus={this.state.status}
+              index={0}
+            />
+          </div>
+
+          <div className="column column--third door">
+            <button disabled={this.state.status !== 'waiting'} onClick={this.roundStart.bind(this)}>Start</button>
+            <button disabled={this.state.status !== 'finishing'} onClick={this.roundReset.bind(this)}>Reset</button>
+            <h1>{(this.state.timer * 0.01).toFixed(2)}</h1>
+            <h1>{this.state.visitor}</h1>
+          </div>
+
+          <div className="column column--third">
+            <Action
+              action={this.state.actions[1]}
+              callback={this.actionClicked.bind(this)}
+              gameStatus={this.state.status}
+              index={1}
+            />
+          </div>
+        </div>
+
         <StateLogger state={this.state} />
 
-        <button disabled={this.state.status !== 'waiting'} onClick={this.roundStart.bind(this)}>Start</button>
-
-        <br /><br />
-
-        {actions}
-
-        <br /><br />
-
-        <button disabled={this.state.status !== 'finishing'} onClick={this.roundReset.bind(this)}>Reset</button>
-
-        <h1>{(this.state.timer * 0.01).toFixed(2)}</h1>
-        <h1>{this.state.visitor}</h1>
       </div>
     );
   }

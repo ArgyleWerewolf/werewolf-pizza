@@ -1,0 +1,42 @@
+html {
+  font-size: 62.5%;
+}
+
+.row {
+  width: 100%;
+
+  &::after,
+  &::before {
+    display: table;
+    content: ' ';
+  }
+
+  &::after {
+    clear: both;
+  }
+}
+
+.column {
+  float: left;
+  min-height: 10px;
+
+  &:last-child:not(:first-child) {
+    float: right;
+  }
+}
+
+.column--full {
+  width: 100%;
+}
+
+.column--half {
+  width: 50%;
+}
+
+.column--third {
+  width: 33.333%;
+}
+
+.column--quarter {
+  width: 25%;
+}

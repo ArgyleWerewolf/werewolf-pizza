@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import WerewolfPizza from './components/WerewolfPizza.jsx';
+import WerewolfPizza from './components/WerewolfPizza/WerewolfPizza.jsx';
 
 function run () {
   ReactDOM.render(<WerewolfPizza />, document.getElementById('root'));
