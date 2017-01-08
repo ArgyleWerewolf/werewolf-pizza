@@ -7,12 +7,14 @@ export default class ScoreBoard extends React.Component {
     return (
       <div className="scoreboard">
         <div className="row">
-          <div className="column column--full">
-            <ul>
-              <li><strong>High Score:</strong> {this.props.highScore}</li>
-              <li><strong>Current Score:</strong> {this.props.score}</li>
-            </ul>
+          <div className="column column--quarter" />
+          <div className="column column--quarter text--center">
+            <p className="score score--current"><strong>Current Score:</strong> {this.props.score}</p>
           </div>
+          <div className="column column--quarter text--center">
+            <p className="score score--high"><strong>High Score:</strong> {this.props.highScore}</p>
+          </div>
+          <div className="column column--quarter" />
         </div>
       </div>
     );

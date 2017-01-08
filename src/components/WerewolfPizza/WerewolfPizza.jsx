@@ -1,9 +1,11 @@
+import { ACTIONS, ROUND_TICKS, STORAGE_KEY } from '../../constants.json';
 import { reverse } from 'lodash';
 import Action from '../Action/Action.jsx';
-import { ACTIONS, ROUND_TICKS, STORAGE_KEY } from '../../constants.json';
+import Door from '../Door/Door.jsx';
 import React from 'react';
 import ScoreBoard from '../ScoreBoard/ScoreBoard.jsx';
 import StateLogger from '../StateLogger/StateLogger.jsx';
+import Timer from '../Timer/Timer.jsx';
 
 require('./WerewolfPizza.scss');
 
@@ -141,14 +143,18 @@ export default class WerewolfPizza extends React.Component {
               index={0}
             />
           </div>
-
-          <div className="column column--third door">
-            <button disabled={this.state.status !== 'waiting'} onClick={this.roundStart.bind(this)}>Start</button>
-            <button disabled={this.state.status !== 'finishing'} onClick={this.roundReset.bind(this)}>Reset</button>
-            <h1>{(this.state.timer * 0.01).toFixed(2)}</h1>
-            <h1>{this.state.visitor}</h1>
+          <div className="column column--third">
+            <Timer
+              gameStatus={this.state.status}
+              timer={this.state.timer}
+            />
+            <Door
+              gameStatus={this.state.status}
+              onResetRound={this.roundReset.bind(this)}
+              onStartRound={this.roundStart.bind(this)}
+              visitor={this.state.visitor}
+            />
           </div>
-
           <div className="column column--third">
             <Action
               action={this.state.actions[1]}
