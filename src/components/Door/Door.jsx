@@ -1,4 +1,5 @@
 import React from 'react';
+import Visitor from '../Visitor/Visitor.jsx';
 
 require('./Door.scss');
 
@@ -13,10 +14,17 @@ export default class Door extends React.Component {
 
   render () {
     return (
-      <div className="door">
-        <h3>{this.renderVisitor()}</h3>
-        <button disabled={this.props.gameStatus !== 'waiting'} onClick={this.props.onStartRound.bind(this)}>Start</button>
-        <button disabled={this.props.gameStatus !== 'finishing'} onClick={this.props.onResetRound.bind(this)}>Reset</button>
+      <div className="doorframe">
+        <div className="door">
+          <button disabled={this.props.gameStatus !== 'waiting'} onClick={this.props.onStartRound.bind(this)}>Start</button>
+          <button disabled={this.props.gameStatus !== 'finishing'} onClick={this.props.onResetRound.bind(this)}>Reset</button>
+        </div>
+        <div className="visitor">
+          <Visitor
+            gameStatus={this.props.gameStatus}
+            visitor={this.props.visitor}
+          />
+        </div>
       </div>
     );
   }
