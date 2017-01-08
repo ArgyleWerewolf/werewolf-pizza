@@ -5,20 +5,33 @@ require('./Door.scss');
 
 export default class Door extends React.Component {
 
-  renderVisitor () {
+  renderDoor () {
     if (this.props.gameStatus === 'waiting') {
-      return null;
+      return (
+        <div className="door door--closed" onClick={this.props.onStartRound.bind(this)}>
+          Start
+        </div>
+      );
+    } else if (this.props.gameStatus === 'finishing') {
+      return (
+        <div className="door door--open" onClick={this.props.onResetRound.bind(this)}>
+          Close Door
+        </div>
+      );
     }
-    return this.props.visitor;
+
+    return (
+      <div className="door door--open">
+        Playing...
+      </div>
+    );
+
   }
 
   render () {
     return (
       <div className="doorframe">
-        <div className="door">
-          <button disabled={this.props.gameStatus !== 'waiting'} onClick={this.props.onStartRound.bind(this)}>Start</button>
-          <button disabled={this.props.gameStatus !== 'finishing'} onClick={this.props.onResetRound.bind(this)}>Reset</button>
-        </div>
+        {this.renderDoor()}
         <div className="visitor">
           <Visitor
             gameStatus={this.props.gameStatus}
