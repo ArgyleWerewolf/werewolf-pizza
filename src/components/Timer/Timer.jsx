@@ -8,7 +8,7 @@ export default class Timer extends React.Component {
     if (this.props.gameStatus === 'waiting') {
       return null;
     }
-    return <h3>{(this.props.timer * 0.01).toFixed(2)}</h3>;
+    return <div className="timer">{(this.props.timer * 0.01).toFixed(2)}</div>;
   }
 }
 
