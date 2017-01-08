@@ -7,8 +7,8 @@ html {
 
   &::after,
   &::before {
-    display: table;
     content: ' ';
+    display: table;
   }
 
   &::after {

@@ -6,11 +6,12 @@
   "author": "ArgyleWerewolf",
   "license": "ISC",
   "scripts": {
-    "test": "test",
     "start": "NODE_ENV=production webpack --progress && NODE_ENV=production node server.js",
     "dev": "webpack-dev-server --progress --colors --watch --content-base src/",
     "build": "webpack --progress --watch",
-    "eslint": "./node_modules/.bin/eslint --ext .js --ext .jsx src; exit 0"
+    "eslint": "./node_modules/.bin/eslint --ext .js --ext .jsx src; exit 0",
+    "scsslint": "scss-lint src/components/ --config conf/scss-lint.yml; exit 0",
+    "lint": "npm run eslint && npm run scsslint"
   },
   "dependencies": {
     "babel-core": "^6.7.2",
