@@ -7,13 +7,13 @@ export default class Visitor extends React.Component {
 
   render () {
 
-    if (this.props.gameStatus === 'waiting') {
+    if (this.props.roundStatus === 'waiting') {
       return null;
     }
 
     const classes = 'visitor visitor--' + this.props.visitor;
     let visitorLabel;
-    if (this.props.gameStatus === 'playing') {
+    if (this.props.roundStatus === 'playing') {
       visitorLabel = (this.props.visitor === 'werewolf') ? label('VISITOR_WEREWOLF') : label('VISITOR_PIZZA');
     }
 
@@ -26,6 +26,6 @@ export default class Visitor extends React.Component {
 }
 
 Visitor.propTypes = {
-  gameStatus: React.PropTypes.string.isRequired,
+  roundStatus: React.PropTypes.string.isRequired,
   visitor: React.PropTypes.string.isRequired
 };

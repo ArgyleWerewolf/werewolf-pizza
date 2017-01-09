@@ -11,7 +11,7 @@ export default class Action extends React.Component {
 
   render () {
 
-    if (this.props.gameStatus === 'waiting') {
+    if (this.props.roundStatus === 'waiting') {
       return null;
     }
 
@@ -21,7 +21,7 @@ export default class Action extends React.Component {
     return (
       <div className={classes}>
         <button
-          disabled={this.props.gameStatus === 'finishing'}
+          disabled={this.props.roundStatus === 'finishing'}
           onClick={this.onClick.bind(this)}
         >
           {actionLabel}
@@ -34,6 +34,6 @@ export default class Action extends React.Component {
 Action.propTypes = {
   action: React.PropTypes.string.isRequired,
   callback: React.PropTypes.func.isRequired,
-  gameStatus: React.PropTypes.string.isRequired,
-  index: React.PropTypes.number.isRequired
+  index: React.PropTypes.number.isRequired,
+  roundStatus: React.PropTypes.string.isRequired
 };

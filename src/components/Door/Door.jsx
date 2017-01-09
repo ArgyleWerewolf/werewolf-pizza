@@ -7,13 +7,13 @@ require('./Door.scss');
 export default class Door extends React.Component {
 
   renderDoor () {
-    if (this.props.gameStatus === 'waiting') {
+    if (this.props.roundStatus === 'waiting') {
       return (
         <div className="door door--closed" onClick={this.props.onStartRound.bind(this)}>
           {label('DOOR_START')}
         </div>
       );
-    } else if (this.props.gameStatus === 'finishing') {
+    } else if (this.props.roundStatus === 'finishing') {
       return (
         <div className="door door--open" onClick={this.props.onResetRound.bind(this)}>
           {label('DOOR_CLOSE')}
@@ -33,7 +33,7 @@ export default class Door extends React.Component {
         {this.renderDoor()}
         <div className="visitor">
           <Visitor
-            gameStatus={this.props.gameStatus}
+            roundStatus={this.props.roundStatus}
             visitor={this.props.visitor}
           />
         </div>
@@ -43,8 +43,8 @@ export default class Door extends React.Component {
 }
 
 Door.propTypes = {
-  gameStatus: React.PropTypes.string.isRequired,
   onResetRound: React.PropTypes.func.isRequired,
   onStartRound: React.PropTypes.func.isRequired,
+  roundStatus: React.PropTypes.string.isRequired,
   visitor: React.PropTypes.string.isRequired
 };

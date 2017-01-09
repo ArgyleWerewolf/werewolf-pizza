@@ -20,7 +20,7 @@ export default class WerewolfPizza extends React.Component {
       actions: this.getActions(),
       highScore: this.storageRead('highScore'),
       score: 0,
-      status: 'waiting',
+      roundStatus: 'waiting',
       timer: ROUND_TICKS,
       visitor: this.getVisitor()
     };
@@ -66,7 +66,7 @@ export default class WerewolfPizza extends React.Component {
     clearInterval(this.interval);
     this.setState({
       actions: this.getActions(),
-      status: 'waiting',
+      roundStatus: 'waiting',
       timer: ROUND_TICKS,
       visitor: this.getVisitor()
     });
@@ -75,7 +75,7 @@ export default class WerewolfPizza extends React.Component {
   roundStart () {
     this.setState({
       actions: this.getActions(),
-      status: 'playing',
+      roundStatus: 'playing',
       visitor: this.getVisitor()
     });
     this.timerStart();
@@ -84,7 +84,7 @@ export default class WerewolfPizza extends React.Component {
   roundStop () {
     this.timerStop();
     this.setState({
-      status: 'finishing'
+      roundStatus: 'finishing'
     });
   }
 
@@ -139,19 +139,19 @@ export default class WerewolfPizza extends React.Component {
             <Action
               action={this.state.actions[0]}
               callback={this.actionClicked.bind(this)}
-              gameStatus={this.state.status}
               index={0}
+              roundStatus={this.state.roundStatus}
             />
           </div>
           <div className="column column--third">
             <Timer
-              gameStatus={this.state.status}
+              roundStatus={this.state.roundStatus}
               timer={this.state.timer}
             />
             <Door
-              gameStatus={this.state.status}
               onResetRound={this.roundReset.bind(this)}
               onStartRound={this.roundStart.bind(this)}
+              roundStatus={this.state.roundStatus}
               visitor={this.state.visitor}
             />
           </div>
@@ -159,8 +159,8 @@ export default class WerewolfPizza extends React.Component {
             <Action
               action={this.state.actions[1]}
               callback={this.actionClicked.bind(this)}
-              gameStatus={this.state.status}
               index={1}
+              roundStatus={this.state.roundStatus}
             />
           </div>
         </div>
