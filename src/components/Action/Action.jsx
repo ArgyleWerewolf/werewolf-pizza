@@ -1,3 +1,4 @@
+import { label } from '../../utils.js';
 import React from 'react';
 
 require('./Action.scss');
@@ -15,13 +16,15 @@ export default class Action extends React.Component {
     }
 
     const classes = 'action action--' + this.props.index;
+    const actionLabel = (this.props.action === 'shoot') ? label('ACTION_SHOOT') : label('ACTION_PAY');
+
     return (
       <div className={classes}>
         <button
           disabled={this.props.gameStatus === 'finishing'}
           onClick={this.onClick.bind(this)}
         >
-          {this.props.action}
+          {actionLabel}
         </button>
       </div>
     );

@@ -1,3 +1,4 @@
+import { label } from '../../utils.js';
 import React from 'react';
 
 require('./Visitor.scss');
@@ -10,9 +11,15 @@ export default class Visitor extends React.Component {
       return null;
     }
 
+    const classes = 'visitor visitor--' + this.props.visitor;
+    let visitorLabel;
+    if (this.props.gameStatus === 'playing') {
+      visitorLabel = (this.props.visitor === 'werewolf') ? label('VISITOR_WEREWOLF') : label('VISITOR_PIZZA');
+    }
+
     return (
-      <div className="visitor">
-        {this.props.visitor}
+      <div className={classes}>
+        {visitorLabel}
       </div>
     );
   }

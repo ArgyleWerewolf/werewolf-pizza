@@ -1,3 +1,4 @@
+import { label } from '../../utils.js';
 import React from 'react';
 import Visitor from '../Visitor/Visitor.jsx';
 
@@ -9,21 +10,19 @@ export default class Door extends React.Component {
     if (this.props.gameStatus === 'waiting') {
       return (
         <div className="door door--closed" onClick={this.props.onStartRound.bind(this)}>
-          Start
+          {label('DOOR_START')}
         </div>
       );
     } else if (this.props.gameStatus === 'finishing') {
       return (
         <div className="door door--open" onClick={this.props.onResetRound.bind(this)}>
-          Close Door
+          {label('DOOR_CLOSE')}
         </div>
       );
     }
 
     return (
-      <div className="door door--open">
-        Playing...
-      </div>
+      <div className="door door--open" />
     );
 
   }

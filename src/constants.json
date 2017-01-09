@@ -1,5 +1,16 @@
 {
   "ACTIONS": ["shoot", "pay"],
+  "DEFAULT_LOCALE": "EN_US",
   "ROUND_TICKS": 300,
+  "STRINGS": {
+    "EN_US": {
+      "DOOR_START": "Who's at the door?",
+      "VISITOR_WEREWOLF": "A werewolf!",
+      "VISITOR_PIZZA": "The pizza!",
+      "ACTION_SHOOT": "Shoot",
+      "ACTION_PAY": "Pay",
+      "DOOR_CLOSE": "Close the door"
+    }
+  },
   "STORAGE_KEY": "werewolfPizza"
 }
