@@ -9,7 +9,8 @@
       "VISITOR_PIZZA": "The pizza!",
       "ACTION_SHOOT": "Shoot",
       "ACTION_PAY": "Pay",
-      "DOOR_CLOSE": "Close the door"
+      "DOOR_CLOSE": "Close the door",
+      "NEW_GAME": "Start a new game"
     }
   },
   "STORAGE_KEY": "werewolfPizza"

@@ -21,6 +21,7 @@ export default class WerewolfPizza extends React.Component {
       highScore: this.storageRead('highScore'),
       score: 0,
       roundStatus: 'waiting',
+      roundResult: '',
       timer: ROUND_TICKS,
       visitor: this.getVisitor()
     };
@@ -48,6 +49,7 @@ export default class WerewolfPizza extends React.Component {
 
   handleLose () {
     this.setState({
+      roundResult: 'lost',
       score: 0
     });
   }
@@ -57,6 +59,7 @@ export default class WerewolfPizza extends React.Component {
     const updatedHighScore = (updatedScore > this.state.highScore) ? updatedScore : this.state.highScore;
     this.setState({
       highScore: updatedHighScore,
+      roundResult: 'won',
       score: updatedScore
     });
     this.storageWrite('highScore', updatedHighScore);
@@ -151,6 +154,7 @@ export default class WerewolfPizza extends React.Component {
             <Door
               onResetRound={this.roundReset.bind(this)}
               onStartRound={this.roundStart.bind(this)}
+              roundResult={this.state.roundResult}
               roundStatus={this.state.roundStatus}
               visitor={this.state.visitor}
             />

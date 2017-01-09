@@ -14,9 +14,10 @@ export default class Door extends React.Component {
         </div>
       );
     } else if (this.props.roundStatus === 'finishing') {
+      const doorLabel = (this.props.roundResult === 'won') ? label('DOOR_CLOSE') : label('NEW_GAME');
       return (
         <div className="door door--open" onClick={this.props.onResetRound.bind(this)}>
-          {label('DOOR_CLOSE')}
+          {doorLabel}
         </div>
       );
     }
@@ -45,6 +46,7 @@ export default class Door extends React.Component {
 Door.propTypes = {
   onResetRound: React.PropTypes.func.isRequired,
   onStartRound: React.PropTypes.func.isRequired,
+  roundResult: React.PropTypes.string.isRequired,
   roundStatus: React.PropTypes.string.isRequired,
   visitor: React.PropTypes.string.isRequired
 };
