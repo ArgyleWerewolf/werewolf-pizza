@@ -2,6 +2,7 @@ import { ACTIONS, ROUND_TICKS, STORAGE_KEY } from '../../constants.json';
 import { reverse } from 'lodash';
 import Action from '../Action/Action.jsx';
 import Door from '../Door/Door.jsx';
+import MessageBoard from '../MessageBoard/MessageBoard.jsx';
 import React from 'react';
 import ScoreBoard from '../ScoreBoard/ScoreBoard.jsx';
 import StateLogger from '../StateLogger/StateLogger.jsx';
@@ -19,6 +20,10 @@ export default class WerewolfPizza extends React.Component {
     this.state = {
       actions: this.getActions(),
       highScore: this.storageRead('highScore'),
+      message: {
+        content: 'Werewolf Pizza!',
+        style: 'message--title'
+      },
       score: 0,
       roundStatus: 'waiting',
       roundResult: '',
@@ -135,6 +140,10 @@ export default class WerewolfPizza extends React.Component {
         <ScoreBoard
           highScore={this.state.highScore}
           score={this.state.score}
+        />
+
+        <MessageBoard
+          message={this.state.message}
         />
 
         <div className="row">
