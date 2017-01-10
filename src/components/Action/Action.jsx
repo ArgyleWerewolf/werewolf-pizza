@@ -19,8 +19,9 @@ export default class Action extends React.Component {
     const actionLabel = (this.props.action === 'shoot') ? label('ACTION_SHOOT') : label('ACTION_PAY');
 
     return (
-      <div className={classes}>
+      <div className="action-container">
         <button
+          className={classes}
           disabled={this.props.roundStatus === 'finishing'}
           onClick={this.onClick.bind(this)}
         >

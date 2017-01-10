@@ -14,7 +14,11 @@ export default class Visitor extends React.Component {
     const classes = 'visitor visitor--' + this.props.visitor.type;
     let visitorLabel;
     if (this.props.roundStatus === 'playing') {
-      visitorLabel = (this.props.visitor.type === 'werewolf') ? label('VISITOR_WEREWOLF') : label('VISITOR_PIZZA');
+      visitorLabel = (
+        <span className="visitor-label">
+          {(this.props.visitor.type === 'werewolf') ? label('VISITOR_WEREWOLF') : label('VISITOR_PIZZA')}
+        </span>
+      );
     }
 
     return (

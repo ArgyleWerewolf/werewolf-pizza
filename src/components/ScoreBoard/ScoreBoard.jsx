@@ -8,14 +8,15 @@ export default class ScoreBoard extends React.Component {
     return (
       <div className="scoreboard">
         <div className="row">
-          <div className="column column--quarter" />
+          <div className="column column--half">
+            <h1 className="logo">{label('GAME_TITLE')}</h1>
+          </div>
           <div className="column column--quarter text--center">
             <p className="score score--current"><strong>{label('CURRENT_SCORE')}</strong> {this.props.score}</p>
           </div>
           <div className="column column--quarter text--center">
             <p className="score score--high"><strong>{label('HIGH_SCORE')}</strong> {this.props.highScore}</p>
           </div>
-          <div className="column column--quarter" />
         </div>
       </div>
     );

@@ -9,15 +9,13 @@ export default class Door extends React.Component {
   renderDoor () {
     if (this.props.roundStatus === 'waiting') {
       return (
-        <div className="door door--closed" onClick={this.props.onStartRound.bind(this)}>
-          {label('DOOR_START')}
-        </div>
+        <div className="door door--closed" onClick={this.props.onStartRound.bind(this)} />
       );
     } else if (this.props.roundStatus === 'finishing') {
       const doorLabel = (this.props.roundResult === 'won') ? label('DOOR_CLOSE') : label('NEW_GAME');
       return (
         <div className="door door--open" onClick={this.props.onResetRound.bind(this)}>
-          {doorLabel}
+          <span className="door-label">{doorLabel}</span>
         </div>
       );
     }
@@ -32,12 +30,10 @@ export default class Door extends React.Component {
     return (
       <div className="doorframe">
         {this.renderDoor()}
-        <div className="visitor">
-          <Visitor
-            roundStatus={this.props.roundStatus}
-            visitor={this.props.visitor}
-          />
-        </div>
+        <Visitor
+          roundStatus={this.props.roundStatus}
+          visitor={this.props.visitor}
+        />
       </div>
     );
   }

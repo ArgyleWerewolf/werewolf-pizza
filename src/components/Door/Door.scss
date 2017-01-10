@@ -1,3 +1,27 @@
 .doorframe {
+  border: 4px solid #d2b48c;
+  height: 24rem;
+  position: relative;
   text-align: center;
+}
+
+.door {
+  background-color: #d2b48c;
+  bottom: 0;
+  cursor: pointer;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 1;
+}
+
+.door--open {
+  background-color: transparent;
+  cursor: default;
+}
+
+.door-label {
+  position: relative;
+  top: 50%;
 }

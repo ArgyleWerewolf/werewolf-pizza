@@ -22,8 +22,8 @@ export default class WerewolfPizza extends React.Component {
       actions: this.getActions(),
       highScore: this.storageRead('highScore'),
       message: {
-        content: label('GAME_TITLE'),
-        style: 'message--title'
+        content: label(''),
+        style: 'message--empty'
       },
       score: 0,
       roundStatus: 'waiting',
@@ -114,8 +114,8 @@ export default class WerewolfPizza extends React.Component {
     this.setState({
       actions: this.getActions(),
       message: {
-        content: label('GAME_TITLE'),
-        style: 'message--title'
+        content: label(''),
+        style: 'message--empty'
       },
       roundStatus: 'waiting',
       timer: ROUND_TICKS,
