@@ -4,13 +4,22 @@
   "ROUND_TICKS": 300,
   "STRINGS": {
     "EN_US": {
-      "DOOR_START": "Who's at the door?",
-      "VISITOR_WEREWOLF": "A werewolf!",
-      "VISITOR_PIZZA": "The pizza!",
-      "ACTION_SHOOT": "Shoot",
       "ACTION_PAY": "Pay",
+      "ACTION_SHOOT": "Shoot",
+      "CURRENT_SCORE": "Score:",
       "DOOR_CLOSE": "Close the door",
-      "NEW_GAME": "Start a new game"
+      "DOOR_START": "Who's at the door?",
+      "GAME_TITLE": "Werewolf Pizza!",
+      "HIGH_SCORE": "Hi Score:",
+      "LOST_VS_PIZZA": "You shot the pizza delivery person!",
+      "LOST_VS_WEREWOLF": "Werewolves don't take bribes!",
+      "NEW_GAME": "Start a new game",
+      "TIMEOUT_VS_PIZZA": "The delivery person left.",
+      "TIMEOUT_VS_WEREWOLF": "The werewolf ate you.",
+      "VISITOR_PIZZA": "The pizza!",
+      "VISITOR_WEREWOLF": "A werewolf!",
+      "WON_VS_PIZZA": "You paid for your pizza.",
+      "WON_VS_WEREWOLF": "You shot the werewolf."
     }
   },
   "STORAGE_KEY": "werewolfPizza"

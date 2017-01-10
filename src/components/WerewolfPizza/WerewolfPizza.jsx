@@ -1,4 +1,5 @@
 import { ACTIONS, ROUND_TICKS, STORAGE_KEY } from '../../constants.json';
+import { label } from '../../utils.js';
 import { reverse } from 'lodash';
 import Action from '../Action/Action.jsx';
 import Door from '../Door/Door.jsx';
@@ -21,7 +22,7 @@ export default class WerewolfPizza extends React.Component {
       actions: this.getActions(),
       highScore: this.storageRead('highScore'),
       message: {
-        content: 'Werewolf Pizza!',
+        content: label('GAME_TITLE'),
         style: 'message--title'
       },
       score: 0,
@@ -35,8 +36,8 @@ export default class WerewolfPizza extends React.Component {
   actionClicked (action) {
     this.roundStop();
     if (
-      (action === 'shoot' && this.state.visitor === 'werewolf') ||
-      (action === 'pay' && this.state.visitor === 'pizza')
+      (action === 'shoot' && this.state.visitor.type === 'werewolf') ||
+      (action === 'pay' && this.state.visitor.type === 'pizza')
     ) {
       this.handleWin();
     } else {
@@ -44,16 +45,47 @@ export default class WerewolfPizza extends React.Component {
     }
   }
 
+  describeVisitor (visitor) {
+    return {
+      content: (visitor.type === 'werewolf') ? 'A werewolf!' : 'Pizza delivery!',
+      style: 'visitor--' + visitor.type
+    };
+  }
+
   getActions () {
     return Math.random() < 0.5 ? ACTIONS : reverse(ACTIONS);
   }
 
   getVisitor () {
-    return Math.random() < 0.5 ? 'werewolf' : 'pizza';
+    const werewolf = {
+      type: 'werewolf',
+      properties: {}
+    };
+    const pizza = {
+      type: 'pizza',
+      properties: {}
+    };
+    return Math.random() < 0.5 ? werewolf : pizza;
   }
 
   handleLose () {
+
+    let messageContent;
+    const VISITOR = this.state.visitor.type.toUpperCase();
+
+    if (this.state.timer === 0) {
+      messageContent = label('TIMEOUT_VS_' + VISITOR);
+    } else {
+      messageContent = label('LOST_VS_' + VISITOR);
+    }
+
+    const message = {
+      content: messageContent,
+      style: 'message--lost'
+    };
+
     this.setState({
+      message: message,
       roundResult: 'lost',
       score: 0
     });
@@ -62,8 +94,15 @@ export default class WerewolfPizza extends React.Component {
   handleWin () {
     const updatedScore = this.state.score + 1;
     const updatedHighScore = (updatedScore > this.state.highScore) ? updatedScore : this.state.highScore;
+
+    const message = {
+      content: label('WON_VS_' + this.state.visitor.type.toUpperCase()),
+      style: 'message--won'
+    };
+
     this.setState({
       highScore: updatedHighScore,
+      message: message,
       roundResult: 'won',
       score: updatedScore
     });
@@ -74,6 +113,10 @@ export default class WerewolfPizza extends React.Component {
     clearInterval(this.interval);
     this.setState({
       actions: this.getActions(),
+      message: {
+        content: label('GAME_TITLE'),
+        style: 'message--title'
+      },
       roundStatus: 'waiting',
       timer: ROUND_TICKS,
       visitor: this.getVisitor()
@@ -81,10 +124,13 @@ export default class WerewolfPizza extends React.Component {
   }
 
   roundStart () {
+    const visitor = this.getVisitor();
+    const message = this.describeVisitor(visitor);
     this.setState({
       actions: this.getActions(),
+      message: message,
       roundStatus: 'playing',
-      visitor: this.getVisitor()
+      visitor: visitor
     });
     this.timerStart();
   }

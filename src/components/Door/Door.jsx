@@ -48,5 +48,5 @@ Door.propTypes = {
   onStartRound: React.PropTypes.func.isRequired,
   roundResult: React.PropTypes.string.isRequired,
   roundStatus: React.PropTypes.string.isRequired,
-  visitor: React.PropTypes.string.isRequired
+  visitor: React.PropTypes.object.isRequired
 };
