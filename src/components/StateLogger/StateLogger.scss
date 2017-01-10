@@ -1,10 +1,18 @@
 .statelogger {
-  background-color: #eee;
   bottom: 0;
+  left: 0;
+  position: absolute;
+}
+
+.statelogger-state {
+  background-color: rgba(192, 192, 192, 0.76);
+  cursor: pointer;
   display: inline-block;
   font-size: 1.6rem;
-  left: 0;
   margin: 0;
   padding: 1rem;
-  position: absolute;
+}
+
+.statelogger-button {
+  margin: 1rem;
 }
