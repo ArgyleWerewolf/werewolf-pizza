@@ -19,6 +19,9 @@
 .door--open {
   background-color: transparent;
   cursor: default;
+  &.round--finished {
+    cursor: pointer;
+  }
 }
 
 .door-label {

@@ -4,12 +4,33 @@
   left: 0;
   position: absolute;
   right: 0;
-  text-align: center;
   top: 0;
   z-index: 0;
-}
 
-.visitor-label {
-  position: relative;
-  top: 50%;
+  &.visitor--werewolf {
+    background-color: #630;
+    &.visitor--lost {
+      background-color: #900;
+    }
+    &.visitor--timeout {
+      background-color: #999;
+    }
+    &.visitor--won {
+      background-color: #363;
+    }
+  }
+
+  &.visitor--pizza {
+    background-color: #f63;
+    &.visitor--lost {
+      background-color: #f00;
+    }
+    &.visitor--timeout {
+      background-color: #999;
+    }
+    &.visitor--won {
+      background-color: #6c6;
+    }
+  }
+
 }

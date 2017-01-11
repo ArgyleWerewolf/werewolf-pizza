@@ -72,9 +72,11 @@ export default class WerewolfPizza extends React.Component {
 
     let messageContent;
     const VISITOR = this.state.visitor.type.toUpperCase();
+    let roundResult = 'lost';
 
     if (this.state.timer === 0) {
       messageContent = label('TIMEOUT_VS_' + VISITOR);
+      roundResult = 'timeout';
     } else {
       messageContent = label('LOST_VS_' + VISITOR);
     }
@@ -86,7 +88,7 @@ export default class WerewolfPizza extends React.Component {
 
     this.setState({
       message: message,
-      roundResult: 'lost',
+      roundResult: roundResult,
       score: 0
     });
   }

@@ -14,7 +14,7 @@ export default class Door extends React.Component {
     } else if (this.props.roundStatus === 'finishing') {
       const doorLabel = (this.props.roundResult === 'won') ? label('DOOR_CLOSE') : label('NEW_GAME');
       return (
-        <div className="door door--open" onClick={this.props.onResetRound.bind(this)}>
+        <div className="door door--open round--finished" onClick={this.props.onResetRound.bind(this)}>
           <span className="door-label">{doorLabel}</span>
         </div>
       );
@@ -31,6 +31,7 @@ export default class Door extends React.Component {
       <div className="doorframe">
         {this.renderDoor()}
         <Visitor
+          roundResult={this.props.roundResult}
           roundStatus={this.props.roundStatus}
           visitor={this.props.visitor}
         />
