@@ -3,8 +3,9 @@ bower_components
 node_modules
 
 ## Generated build files
-.haste_cache/
 .tmp/
 dev/
-dist/
-release/
+build/
+
+## Log files
+npm-debug.log
