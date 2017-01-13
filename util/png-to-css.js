@@ -46,9 +46,10 @@ Jimp.read(target, function (err, image) {
   });
 
   // write the results to <filename>.css
-  let css = '.' + parts[0] + '{height:' + pixel_size + 'px;width:' + pixel_size + 'px;display:inline-block;box-shadow:';
-  css += pixels.slice(0, -1) + ';}';
-  fs.writeFile(parts[0] + ".css", css, function(err) {
+  const container = '.' + parts[0] + '{height:' + pixel_size * image.bitmap.height + 'px;width:' + pixel_size * image.bitmap.width + 'px;display:inline-block;}';
+  let art = '.' + parts[0] + '::after{height:' + pixel_size + 'px;width:' + pixel_size + 'px;display:block;content:\' \';box-shadow:';
+  art += pixels.slice(0, -1) + ';}';
+  fs.writeFile(parts[0] + ".css", container + art, function(err) {
     if(err) {
       return console.log(err);
     }
