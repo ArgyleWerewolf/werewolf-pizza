@@ -2,8 +2,8 @@ const Jimp = require("jimp");
 const fs = require('fs');
 
 const target = process.argv[2];
-const colormode = process.argv[3] || 'hex';
-const pixel_size = process.argv[4] || 1;
+const pixel_size = process.argv[3] || 1;
+const color_mode = process.argv[4] || 'hex';
 
 if (!target) {
   return console.log('no input image specified!');
@@ -30,7 +30,7 @@ Jimp.read(target, function (err, image) {
       b: this.bitmap.data[index + 2],
       a: this.bitmap.data[index + 3]
     };
-    if (colormode == 'rgb') {
+    if (color_mode == 'rgb') {
       value = rgba.a + "," + rgba.g + "," + rgba.b;
       color = "rgb(" + value + ")";
     } else {
@@ -41,12 +41,13 @@ Jimp.read(target, function (err, image) {
       color = "#" + value;
     }
 
-    pixels += x + 'px ' + y + 'px 0 ' + color + ',';
+    pixels += x * pixel_size + 'px ' + y * pixel_size + 'px 0 ' + color + ',';
 
   });
 
   // write the results to <filename>.css
-  const css = '.' + parts[0] + ' { height: ' + pixel_size + 'px; width: ' + pixel_size + 'px; box-shadow: ' + pixels.slice(0, -1) + ';}';
+  let css = '.' + parts[0] + '{height:' + pixel_size + 'px;width:' + pixel_size + 'px;display:inline-block;box-shadow:';
+  css += pixels.slice(0, -1) + ';}';
   fs.writeFile(parts[0] + ".css", css, function(err) {
     if(err) {
       return console.log(err);
