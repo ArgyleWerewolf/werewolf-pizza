@@ -18,7 +18,9 @@ Jimp.read(target, function (err, image) {
     return console.log('PNG images only, please');
   }
 
-  let pixels = '';
+  let classes = '.p{position:absolute;display:inline-block;height:' + pixel_size + 'px;width:' + pixel_size + 'px;}';
+      classes+= '.c{position:relative;height:' + pixel_size * image.bitmap.height + 'px;width:' + pixel_size * image.bitmap.width + 'px;}'
+  let spans = '';
 
   image.scan(0, 0, image.bitmap.width, image.bitmap.height, function (x, y, index) {
 
@@ -30,33 +32,25 @@ Jimp.read(target, function (err, image) {
       b: this.bitmap.data[index + 2],
       a: this.bitmap.data[index + 3]
     };
-    if (color_mode == 'rgb') {
-      value = rgba.a + "," + rgba.g + "," + rgba.b;
-      color = "rgb(" + value + ")";
-    } else {
-      value = Jimp.rgbaToInt(rgba.r, rgba.g, rgba.b, rgba.a).toString(16).slice(0, -2);
-      if (value.length == 4) {
-        value = '00' + value;
-      }
-      color = "#" + value;
-    }
 
-    pixels += x * pixel_size + 'px ' + y * pixel_size + 'px 0 ' + color + ',';
+    value = Jimp.rgbaToInt(rgba.r, rgba.g, rgba.b, rgba.a).toString(16).slice(0, -2);
+    if (value.length == 4) { value = '00' + value; }
+    color = "#" + value;
+
+    classes += '.' + parts[0] + '-' + index + '{top:' + y + 'px;left:' + x + 'px;background:' + color + '}';
+    spans +='<i class="p ' + parts[0] + '-' + index + '"></i>';
 
   });
 
   // write the results to <filename>.css
-  const container = '.' + parts[0] + '{height:' + pixel_size * image.bitmap.height + 'px;width:' + pixel_size * image.bitmap.width + 'px;display:inline-block;}';
-  let art = '.' + parts[0] + '::after{height:' + pixel_size + 'px;width:' + pixel_size + 'px;display:block;content:\' \';box-shadow:';
-  art += pixels.slice(0, -1) + ';}';
-  fs.writeFile(parts[0] + ".css", container + art, function(err) {
+  fs.writeFile(parts[0] + ".css", classes, function(err) {
     if(err) {
       return console.log(err);
     }
   });
 
   // write an accompanying html file
-  const html = '<html><head><style>@import "' + parts[0] + '.css";</style></head><body><div class="' + parts[0] +'"></div></body></html>';
+  const html = '<html><head><style>@import "' + parts[0] + '.css";</style></head><body><div class="c">' + spans + '</div></body></html>';
   fs.writeFile(parts[0] + ".html", html, function(err) {
     if(err) {
       return console.log(err);
