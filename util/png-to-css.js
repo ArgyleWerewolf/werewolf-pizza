@@ -1,16 +1,31 @@
-const Jimp = require("jimp");
+const Jimp = require('jimp');
+const tinycolor = require('tinycolor2');
 const fs = require('fs');
 
 const target = process.argv[2];
-const pixel_size = process.argv[3] || 1;
-const color_mode = process.argv[4] || 'hex';
+const pixelSize = process.argv[3] || 1;
 
-if (!target) {
-  return console.log('no input image specified!');
-}
+const tryToCompactHex = function (color) {
+  let result = color;
+  if (color.length !== 6) {
+    return result;
+  }
+
+  const slice = color.match(/.{1,1}/g);
+  if (
+    slice[0] === slice[1] &&
+    slice[2] === slice[3] &&
+    slice[4] === slice[5]
+  ) {
+    result = slice[0] + slice[2] + slice[4];
+  }
+  return result;
+};
 
 Jimp.read(target, function (err, image) {
-  if (err) throw err;
+  if (err) {
+    throw err;
+  }
 
   // make sure it's a PNG and store the filename for later
   const parts = target.split('.');
@@ -18,13 +33,18 @@ Jimp.read(target, function (err, image) {
     return console.log('PNG images only, please');
   }
 
-  let classes = '.p{position:absolute;display:inline-block;height:' + pixel_size + 'px;width:' + pixel_size + 'px;}';
-      classes+= '.c{position:relative;height:' + pixel_size * image.bitmap.height + 'px;width:' + pixel_size * image.bitmap.width + 'px;}'
+  const canvasHeight = pixelSize * image.bitmap.height;
+  const canvasWidth = pixelSize * image.bitmap.width;
+
+  let classes = 'i{position:absolute;display:inline-block;height:' +
+  pixelSize + 'px;width:' + pixelSize + 'px;}';
+  classes += '.c{position:relative;height:' + canvasHeight + 'px;width:' +
+  canvasWidth + 'px;}';
+
   let spans = '';
 
-  image.scan(0, 0, image.bitmap.width, image.bitmap.height, function (x, y, index) {
-
-    let color, value;
+  image.scan(0, 0, image.bitmap.width, image.bitmap.height,
+  function (x, y, index) {
 
     const rgba = {
       r: this.bitmap.data[index],
@@ -33,29 +53,28 @@ Jimp.read(target, function (err, image) {
       a: this.bitmap.data[index + 3]
     };
 
-    value = Jimp.rgbaToInt(rgba.r, rgba.g, rgba.b, rgba.a).toString(16).slice(0, -2);
-    if (value.length == 4) { value = '00' + value; }
-    color = "#" + value;
+    const tc = tinycolor(rgba);
 
-    classes += '.' + parts[0] + '-' + index + '{top:' + y + 'px;left:' + x + 'px;background:' + color + '}';
-    spans +='<i class="p ' + parts[0] + '-' + index + '"></i>';
+    if (tc.getAlpha() === 0) {
+      return;
+    }
+
+    let color = tc.toHex();
+    color = tryToCompactHex(color);
+
+    classes += '.' + parts[0] + index + '{top:' + y * pixelSize + 'px;left:' + x * pixelSize +
+    'px;background:#' + color + '}';
+    spans += '<i class="' + parts[0] + index + '"/></i>';
 
   });
 
   // write the results to <filename>.css
-  fs.writeFile(parts[0] + ".css", classes, function(err) {
-    if(err) {
-      return console.log(err);
-    }
-  });
+  fs.writeFile(parts[0] + '.css', classes);
 
   // write an accompanying html file
-  const html = '<html><head><style>@import "' + parts[0] + '.css";</style></head><body><div class="c">' + spans + '</div></body></html>';
-  fs.writeFile(parts[0] + ".html", html, function(err) {
-    if(err) {
-      return console.log(err);
-    }
-  });
+  const html = '<html><head><style>@import "' + parts[0] + '.css";</style>' +
+  '</head><body><div class="c">' + spans + '</div></body></html>';
+  fs.writeFile(parts[0] + '.html', html);
 
 });
 
