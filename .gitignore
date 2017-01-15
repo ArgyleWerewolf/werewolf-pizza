@@ -6,6 +6,9 @@ node_modules
 .tmp/
 dev/
 build/
+util/*.css
+util/*.html
+util/*.png
 
 ## Log files
 npm-debug.log

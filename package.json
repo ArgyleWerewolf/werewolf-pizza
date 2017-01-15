@@ -22,6 +22,7 @@
     "css-loader": "^0.23.1",
     "extract-text-webpack-plugin": "^1.0.1",
     "image-webpack-loader": "^1.6.3",
+    "jimp": "^0.2.27",
     "json-loader": "^0.5.4",
     "koa": "2.0.0-alpha.3",
     "koa-convert": "1.2.0",
